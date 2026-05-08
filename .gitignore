@@ -71,6 +71,9 @@ renders/
 output/
 outputs/
 
+# Local demos / generated example scenes (kept out of public GitHub)
+examples/
+
 # Houdini Bridge generated/local artifacts
 plugin/python/houdini_bridge/_generated/
 plugin/packages/*.local.json

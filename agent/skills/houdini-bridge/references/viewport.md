@@ -13,8 +13,15 @@
 ### Validate visually after a build
 
 ```bash
-$CLI call viewport screenshot --kwargs '{"output_path":"D:/tmp/check.png","width":1280,"height":720}'
+$CLI call scene set_current_frame --kwargs '{"frame":48}'
+$CLI call viewport frame_node --kwargs '{"node_path":"/obj/final_OUT"}'
+$CLI call viewport screenshot --kwargs '{"output_path":"outputs/viewport_checks/final.png","width":1280,"height":720,"frame":48}'
 ```
+
+After capture, read the returned image path and inspect it visually. The agent
+must compare the screenshot against the requirement brief before saying the task
+is complete. Pair the screenshot with `node.get_node_errors` and
+`geometry.get_geometry_summary` when validating effects or procedural assets.
 
 ## Notes
 

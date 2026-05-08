@@ -23,3 +23,4 @@ reference file.
 | [viewport.md](viewport.md)             | `viewport` |
 | [event.md](event.md)                   | `event`    |
 | [requirement-intake.md](requirement-intake.md) | Pre-work requirement clarification |
+| [visual-validation.md](visual-validation.md) | Final viewport screenshot validation |

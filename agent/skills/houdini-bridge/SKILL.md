@@ -109,6 +109,48 @@ Good preparation questions usually cover:
    monolithic `exec` script — the agent should be able to abort cleanly.
 6. **Trust the preflight.** If the CLI rejects a call locally, fix the call;
    do not pass `--no-preflight` unless the user asks for it explicitly.
+7. **Validate final visual results with a viewport screenshot.** After any
+   non-trivial scene/effect/asset build, capture a viewport screenshot, inspect
+   the image against the requirement brief, and report whether the result looks
+   correct before calling the task done. If no interactive Scene Viewer is
+   available, say so and fall back to geometry/node summaries.
+
+## Visual validation gate
+
+Use this gate after building or modifying Houdini content that has a visible
+result. It is mandatory for effects, procedural scenes, layout, materials,
+lighting, camera, and final look requests.
+
+1. **Prepare the view.** Set the representative frame, display/render flags, and
+   frame the target node or whole scene.
+2. **Capture a screenshot.** Use `viewport.screenshot` to write an image under
+   an ignored local output path such as `outputs/viewport_checks/<task>.png`.
+3. **Inspect the image.** Read the screenshot as an image and compare it against
+   the final requirement brief: object presence, composition, scale, timing,
+   materials, smoke/fire/particles, obvious cook errors, and missing elements.
+4. **Cross-check with structured data.** For procedural or simulation results,
+   also query `geometry.get_geometry_summary`, `node.get_node_errors`, or
+   relevant parameters so visual judgment is backed by scene data.
+5. **Report outcome.** Return a concise validation result:
+   - `通过`: screenshot matches the brief.
+   - `需要修正`: list concrete visible issues and fix them before final response.
+   - `无法截图`: explain the blocker, usually no interactive Scene Viewer.
+
+Example validation commands:
+
+```bash
+CLI=python agent/skills/houdini-bridge/scripts/houdini_bridge.py
+
+$CLI call scene set_current_frame --kwargs '{"frame":48}'
+$CLI call viewport frame_node --kwargs '{"node_path":"/obj/final_OUT"}'
+$CLI call viewport screenshot --kwargs '{"output_path":"outputs/viewport_checks/final.png","width":1280,"height":720,"frame":48}'
+$CLI call node get_node_errors --kwargs '{"path":"/obj/final_OUT"}'
+$CLI call geometry get_geometry_summary --kwargs '{"node_path":"/obj/final_OUT"}'
+```
+
+After the screenshot call succeeds, open the returned image path with the local
+image reader and evaluate it visually. Do not rely on the screenshot file
+existing alone; the agent must actually inspect the image.
 
 ## Library catalogue
 
