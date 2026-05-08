@@ -1,0 +1,29 @@
+{
+  "$schema": "https://www.sidefx.com/docs/houdini/ref/plugins.html",
+  "_comment": "Drop this file into $HOUDINI_USER_PREF_DIR/packages/. Replace <ABSOLUTE_PATH_TO_REPO_PLUGIN> with the absolute path to this repository's plugin/ directory.",
+  "enable": true,
+  "load_package_once": true,
+  "env": [
+    {
+      "HOUDINI_BRIDGE_ROOT": "<ABSOLUTE_PATH_TO_REPO_PLUGIN>"
+    },
+    {
+      "PYTHONPATH": {
+        "value": "$HOUDINI_BRIDGE_ROOT/python",
+        "method": "prepend"
+      }
+    },
+    {
+      "HOUDINI_PATH": {
+        "value": "$HOUDINI_BRIDGE_ROOT",
+        "method": "prepend"
+      }
+    },
+    {
+      "HOUDINI_BRIDGE_HOST": "127.0.0.1"
+    },
+    {
+      "HOUDINI_BRIDGE_PORT": "0"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+[project]
+name = "houdini-bridge"
+version = "0.1.0"
+description = "Typed control surface for SideFX Houdini that lets AI agents introspect scenes, build node networks, edit parameters, and react to events with undoable writes."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+authors = [{ name = "Houdini Assistant Bridge contributors" }]
+keywords = ["houdini", "ai-agent", "bridge", "automation"]
+
+[project.optional-dependencies]
+dev = []
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]

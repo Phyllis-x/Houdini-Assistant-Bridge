@@ -1,0 +1,78 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.python-version
+.venv/
+venv/
+env/
+
+# Test / lint / build outputs
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+site/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.local
+*.local.*
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# Houdini local files and generated cache outputs
+backup/
+hsite/
+*.hip.autosave
+*.hiplc.autosave
+*.hipnc.autosave
+*.hip~
+*.sim
+*.sim.sc
+*.bgeo
+*.bgeo.sc
+*.geo
+*.geo.sc
+*.vdb
+*.ifd
+*.pic
+*.rat
+*.exr
+*.usd
+*.usdc
+*.usda
+*.abc
+
+# Runtime output directories
+cache/
+caches/
+flipbooks/
+renders/
+output/
+outputs/
+
+# Houdini Bridge generated/local artifacts
+plugin/python/houdini_bridge/_generated/
+plugin/packages/*.local.json
+
+# Keep the checked-in manifest: the CLI preflight needs it for out-of-box use.

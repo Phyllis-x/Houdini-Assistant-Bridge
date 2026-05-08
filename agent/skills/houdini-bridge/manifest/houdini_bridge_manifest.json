@@ -1,0 +1,1291 @@
+{
+  "schema": 1,
+  "libraries": {
+    "asset": {
+      "find_instances": {
+        "library": "asset",
+        "name": "find_instances",
+        "danger": "read",
+        "summary": "List instances of a node type currently in the scene.",
+        "parameters": [
+          {
+            "name": "category",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "type_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "limit",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 100,
+            "annotation": "int"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "get_definition_info": {
+        "library": "asset",
+        "name": "get_definition_info",
+        "danger": "read",
+        "summary": "Inspect a node type definition (HDA).",
+        "parameters": [
+          {
+            "name": "category",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "type_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "install_library": {
+        "library": "asset",
+        "name": "install_library",
+        "danger": "write",
+        "summary": "Install (load) an HDA library file.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "force_reload",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": false,
+            "annotation": "bool"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "list_installed_libraries": {
+        "library": "asset",
+        "name": "list_installed_libraries",
+        "danger": "read",
+        "summary": "List installed HDA libraries (.hda / .otl).",
+        "parameters": [],
+        "returns": "List[str]"
+      },
+      "uninstall_library": {
+        "library": "asset",
+        "name": "uninstall_library",
+        "danger": "destructive",
+        "summary": "Uninstall an HDA library file.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      }
+    },
+    "cache": {
+      "clear_cache": {
+        "library": "cache",
+        "name": "clear_cache",
+        "danger": "destructive",
+        "summary": "Delete the on-disk files matching a cache pattern.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "dry_run",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": true,
+            "annotation": "bool"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "inspect_cache_node": {
+        "library": "cache",
+        "name": "inspect_cache_node",
+        "danger": "read",
+        "summary": "Inspect a filecache / ROP node and its on-disk state.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "render_rop": {
+        "library": "cache",
+        "name": "render_rop",
+        "danger": "write",
+        "summary": "Render the given ROP node (use sparingly — runs synchronously).",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "frame_range",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": null,
+            "annotation": "Optional[List[float]]"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      }
+    },
+    "event": {
+      "drain_events": {
+        "library": "event",
+        "name": "drain_events",
+        "danger": "read",
+        "summary": "Drain buffered events (FIFO). Returns the popped events.",
+        "parameters": [
+          {
+            "name": "limit",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 100,
+            "annotation": "int"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "list_subscriptions": {
+        "library": "event",
+        "name": "list_subscriptions",
+        "danger": "read",
+        "summary": "List all active event subscriptions.",
+        "parameters": [],
+        "returns": "List[Dict[str, Any]]"
+      },
+      "subscribe_node_event": {
+        "library": "event",
+        "name": "subscribe_node_event",
+        "danger": "write",
+        "summary": "Subscribe to a node's events (added/removed/parm changed).",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "event_type",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "unsubscribe": {
+        "library": "event",
+        "name": "unsubscribe",
+        "danger": "destructive",
+        "summary": "Cancel a previously created subscription.",
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      }
+    },
+    "geometry": {
+      "get_detail_attribute": {
+        "library": "geometry",
+        "name": "get_detail_attribute",
+        "danger": "read",
+        "summary": "Read a detail attribute value.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "attribute",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Any"
+      },
+      "get_geometry_summary": {
+        "library": "geometry",
+        "name": "get_geometry_summary",
+        "danger": "read",
+        "summary": "High-level summary of a SOP node's cooked geometry.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "list_attributes": {
+        "library": "geometry",
+        "name": "list_attributes",
+        "danger": "read",
+        "summary": "List point/primitive/vertex/detail attributes.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, List[Dict[str, Any]]]"
+      },
+      "sample_points": {
+        "library": "geometry",
+        "name": "sample_points",
+        "danger": "read",
+        "summary": "Sample N points from the geometry as raw JSON.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "count",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 10,
+            "annotation": "int"
+          },
+          {
+            "name": "attribute",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": "P",
+            "annotation": "str"
+          },
+          {
+            "name": "offset",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": 0,
+            "annotation": "int"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "sample_primitives": {
+        "library": "geometry",
+        "name": "sample_primitives",
+        "danger": "read",
+        "summary": "Sample N primitives' centroids and groups.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "count",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 10,
+            "annotation": "int"
+          },
+          {
+            "name": "offset",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 0,
+            "annotation": "int"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      }
+    },
+    "node": {
+      "connect_inputs": {
+        "library": "node",
+        "name": "connect_inputs",
+        "danger": "write",
+        "summary": "Connect two nodes' input/output indices.",
+        "parameters": [
+          {
+            "name": "target_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "source_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "input_index",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": 0,
+            "annotation": "int"
+          },
+          {
+            "name": "output_index",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": 0,
+            "annotation": "int"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "cook_node": {
+        "library": "node",
+        "name": "cook_node",
+        "danger": "write",
+        "summary": "Cook a node and return its cook stats.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "force",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": false,
+            "annotation": "bool"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "create_node": {
+        "library": "node",
+        "name": "create_node",
+        "danger": "write",
+        "summary": "Create a node by type underneath a parent.",
+        "parameters": [
+          {
+            "name": "parent_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "type_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": null,
+            "annotation": "Optional[str]"
+          },
+          {
+            "name": "position",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": null,
+            "annotation": "Optional[List[float]]"
+          },
+          {
+            "name": "set_display_flag",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": false,
+            "annotation": "bool"
+          },
+          {
+            "name": "set_render_flag",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": false,
+            "annotation": "bool"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "delete_node": {
+        "library": "node",
+        "name": "delete_node",
+        "danger": "destructive",
+        "summary": "Delete a node by absolute path.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "disconnect_input": {
+        "library": "node",
+        "name": "disconnect_input",
+        "danger": "write",
+        "summary": "Disconnect a node's input.",
+        "parameters": [
+          {
+            "name": "target_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "input_index",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 0,
+            "annotation": "int"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "get_node": {
+        "library": "node",
+        "name": "get_node",
+        "danger": "read",
+        "summary": "Inspect a single node by absolute path.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "include_parms",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": false,
+            "annotation": "bool"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "get_node_errors": {
+        "library": "node",
+        "name": "get_node_errors",
+        "danger": "read",
+        "summary": "List a node's recorded errors and warnings.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "layout_children": {
+        "library": "node",
+        "name": "layout_children",
+        "danger": "write",
+        "summary": "Auto-layout a network's children.",
+        "parameters": [
+          {
+            "name": "parent_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "list_node_types": {
+        "library": "node",
+        "name": "list_node_types",
+        "danger": "read",
+        "summary": "List all node types available in a category.",
+        "parameters": [
+          {
+            "name": "category",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": "Sop",
+            "annotation": "str"
+          },
+          {
+            "name": "limit",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 200,
+            "annotation": "int"
+          },
+          {
+            "name": "offset",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 0,
+            "annotation": "int"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "move_node": {
+        "library": "node",
+        "name": "move_node",
+        "danger": "write",
+        "summary": "Move a node to a new (x, y) network coordinate.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "x",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "float"
+          },
+          {
+            "name": "y",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "float"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "rename_node": {
+        "library": "node",
+        "name": "rename_node",
+        "danger": "write",
+        "summary": "Rename a node.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "new_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "set_bypass": {
+        "library": "node",
+        "name": "set_bypass",
+        "danger": "write",
+        "summary": "Bypass or unbypass a node.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "value",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": true,
+            "annotation": "bool"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "set_display_flag": {
+        "library": "node",
+        "name": "set_display_flag",
+        "danger": "write",
+        "summary": "Set the display flag on a node.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "value",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": true,
+            "annotation": "bool"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "set_render_flag": {
+        "library": "node",
+        "name": "set_render_flag",
+        "danger": "write",
+        "summary": "Set the render flag on a node.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "value",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": true,
+            "annotation": "bool"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      }
+    },
+    "parameter": {
+      "add_keyframe": {
+        "library": "parameter",
+        "name": "add_keyframe",
+        "danger": "write",
+        "summary": "Add a constant keyframe at a frame.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "parm_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "frame",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "float"
+          },
+          {
+            "name": "value",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "float"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "add_spare_parameter": {
+        "library": "parameter",
+        "name": "add_spare_parameter",
+        "danger": "write",
+        "summary": "Add a spare parameter using a parm template.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "parm_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "label",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "parm_type",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": "float",
+            "annotation": "str"
+          },
+          {
+            "name": "default",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": 0.0,
+            "annotation": "Optional[float]"
+          },
+          {
+            "name": "min_value",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": null,
+            "annotation": "Optional[float]"
+          },
+          {
+            "name": "max_value",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": null,
+            "annotation": "Optional[float]"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "append_multiparm_instance": {
+        "library": "parameter",
+        "name": "append_multiparm_instance",
+        "danger": "write",
+        "summary": "Append an instance to a multiparm.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "parm_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "clear_keyframes": {
+        "library": "parameter",
+        "name": "clear_keyframes",
+        "danger": "destructive",
+        "summary": "Delete every keyframe on a parameter.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "parm_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "get_parm": {
+        "library": "parameter",
+        "name": "get_parm",
+        "danger": "read",
+        "summary": "Inspect a single parameter on a node.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "parm_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "include_keyframes",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": false,
+            "annotation": "bool"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "list_parms": {
+        "library": "parameter",
+        "name": "list_parms",
+        "danger": "read",
+        "summary": "List all parameters on a node.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "limit",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 100,
+            "annotation": "int"
+          },
+          {
+            "name": "offset",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 0,
+            "annotation": "int"
+          },
+          {
+            "name": "include_invisible",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": false,
+            "annotation": "bool"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "remove_multiparm_instance": {
+        "library": "parameter",
+        "name": "remove_multiparm_instance",
+        "danger": "destructive",
+        "summary": "Remove a multiparm instance by index.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "parm_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "index",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "int"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "revert_to_default": {
+        "library": "parameter",
+        "name": "revert_to_default",
+        "danger": "write",
+        "summary": "Remove any expression / keyframes from a parameter.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "parm_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "set_expression": {
+        "library": "parameter",
+        "name": "set_expression",
+        "danger": "write",
+        "summary": "Set an expression on a parameter.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "parm_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "expression",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "language",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": "hscript",
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "set_parm": {
+        "library": "parameter",
+        "name": "set_parm",
+        "danger": "write",
+        "summary": "Write a single value to a parameter.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "parm_name",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "value",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "Any"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "set_parms": {
+        "library": "parameter",
+        "name": "set_parms",
+        "danger": "write",
+        "summary": "Write multiple parameters at once.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "values",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "Dict[str, Any]"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      }
+    },
+    "scene": {
+      "get_current_frame": {
+        "library": "scene",
+        "name": "get_current_frame",
+        "danger": "read",
+        "summary": "Read the current playbar frame.",
+        "parameters": [],
+        "returns": "float"
+      },
+      "get_scene_summary": {
+        "library": "scene",
+        "name": "get_scene_summary",
+        "danger": "read",
+        "summary": "High-level summary of the current hip file.",
+        "parameters": [],
+        "returns": "Dict[str, Any]"
+      },
+      "get_selected_nodes": {
+        "library": "scene",
+        "name": "get_selected_nodes",
+        "danger": "read",
+        "summary": "Currently selected nodes across the editor.",
+        "parameters": [],
+        "returns": "List[Dict[str, Any]]"
+      },
+      "list_children": {
+        "library": "scene",
+        "name": "list_children",
+        "danger": "read",
+        "summary": "List immediate children of a network node.",
+        "parameters": [
+          {
+            "name": "parent_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": "/obj",
+            "annotation": "str"
+          },
+          {
+            "name": "limit",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 200,
+            "annotation": "int"
+          },
+          {
+            "name": "offset",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 0,
+            "annotation": "int"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "list_takes": {
+        "library": "scene",
+        "name": "list_takes",
+        "danger": "read",
+        "summary": "List Houdini takes with their parents.",
+        "parameters": [],
+        "returns": "List[Dict[str, Any]]"
+      },
+      "save_hip": {
+        "library": "scene",
+        "name": "save_hip",
+        "danger": "write",
+        "summary": "Save the current hip file to disk.",
+        "parameters": [
+          {
+            "name": "path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": null,
+            "annotation": "Optional[str]"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "set_current_frame": {
+        "library": "scene",
+        "name": "set_current_frame",
+        "danger": "write",
+        "summary": "Set the playbar to a specific frame.",
+        "parameters": [
+          {
+            "name": "frame",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "float"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "set_frame_range": {
+        "library": "scene",
+        "name": "set_frame_range",
+        "danger": "write",
+        "summary": "Set the playbar frame range.",
+        "parameters": [
+          {
+            "name": "start",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "float"
+          },
+          {
+            "name": "end",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "float"
+          },
+          {
+            "name": "playback_start",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": null,
+            "annotation": "Optional[float]"
+          },
+          {
+            "name": "playback_end",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": null,
+            "annotation": "Optional[float]"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "walk_network": {
+        "library": "scene",
+        "name": "walk_network",
+        "danger": "read",
+        "summary": "Recursive walk of a network with depth cap.",
+        "parameters": [
+          {
+            "name": "parent_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": "/obj",
+            "annotation": "str"
+          },
+          {
+            "name": "max_depth",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": false,
+            "default": 1,
+            "annotation": "int"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      }
+    },
+    "viewport": {
+      "frame_node": {
+        "library": "viewport",
+        "name": "frame_node",
+        "danger": "write",
+        "summary": "Frame the viewport on a specific node.",
+        "parameters": [
+          {
+            "name": "node_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      },
+      "list_viewers": {
+        "library": "viewport",
+        "name": "list_viewers",
+        "danger": "read",
+        "summary": "List Scene Viewer viewports and their state.",
+        "parameters": [],
+        "returns": "Dict[str, Any]"
+      },
+      "screenshot": {
+        "library": "viewport",
+        "name": "screenshot",
+        "danger": "write",
+        "summary": "Capture a screenshot of the current Scene Viewer.",
+        "parameters": [
+          {
+            "name": "output_path",
+            "kind": "POSITIONAL_OR_KEYWORD",
+            "required": true,
+            "default": null,
+            "annotation": "str"
+          },
+          {
+            "name": "width",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": 1280,
+            "annotation": "int"
+          },
+          {
+            "name": "height",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": 720,
+            "annotation": "int"
+          },
+          {
+            "name": "frame",
+            "kind": "KEYWORD_ONLY",
+            "required": false,
+            "default": null,
+            "annotation": "Optional[float]"
+          }
+        ],
+        "returns": "Dict[str, Any]"
+      }
+    }
+  }
+}
